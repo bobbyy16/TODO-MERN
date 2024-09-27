@@ -5,6 +5,12 @@ const app = express();
 
 connectDB();
 app.use(express.json());
+//  routes
+const userRoutes = require("./routes/user.routes.js");
+const todoRoutes = require("./routes/todo.routes.js");
+
+app.use("/api", userRoutes);
+app.use("/api", todoRoutes);
 
 app.get("/", (req, res) => {
   res.send(`
