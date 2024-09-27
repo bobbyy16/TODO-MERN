@@ -8,7 +8,7 @@ exports.createTodo = async (req, res) => {
   try {
     const validatedData = TodoSchema.parse(req.body);
 
-    const newTodo = await new Todo({
+    const newTodo = new Todo({
       ...validatedData,
       createdBy: req.user.userId,
     });
@@ -27,7 +27,7 @@ exports.createTodo = async (req, res) => {
 exports.getAllTodos = async (req, res) => {
   try {
     const todos = await Todo.find({
-      createdBy: req.user.userID,
+      createdBy: req.user.userId,
     });
     return res.status(200).json(todos);
   } catch (error) {
@@ -41,15 +41,15 @@ exports.updateTodo = async (req, res) => {
   const { todoId } = req.params;
 
   try {
-    const validatedData = TodoSchema.parse(req.body);
+    const validatedData = TodoSchema.parse(req.body); // Validate incoming data
     const todo = await Todo.findOneAndUpdate(
-      { _id: todoId, createdBy: req.user.userId },
+      { _id: todoId, createdBy: req.user.userId }, // Ensure the user owns the todo
       validatedData,
-      { new: true }
+      { new: true } // Return the updated document
     );
 
     if (!todo) {
-      return res.status(404).json({ error: "todo not found" });
+      return res.status(404).json({ error: "Todo not found" });
     }
 
     return res.status(200).json(todo);
@@ -57,6 +57,7 @@ exports.updateTodo = async (req, res) => {
     if (error.name === "ZodError") {
       return res.status(400).json({ error: error.errors });
     }
+    console.error("Error updating todo:", error); // Log for debugging
     return res.status(500).json({ error: "Server error" });
   }
 };
@@ -69,13 +70,16 @@ exports.deleteTodo = async (req, res) => {
   try {
     const todo = await Todo.findOneAndDelete({
       _id: todoId,
-      createdBy: req.user.userId,
+      createdBy: req.user.userId, // Ensure the user owns the todo
     });
+
     if (!todo) {
       return res.status(404).json({ error: "Todo not found" });
     }
+
     return res.status(200).json({ message: "Todo deleted successfully" });
   } catch (error) {
+    console.error("Error deleting todo:", error); // Log for debugging
     return res.status(500).json({ error: "Server error" });
   }
 };
