@@ -12,7 +12,7 @@ const TodoPage = () => {
   const fetchTodos = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:8080/api", {
+      const response = await fetch("https://todo-mern-hyif.onrender.com/api", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -42,14 +42,17 @@ const TodoPage = () => {
       const updatedStatus =
         todoToToggle.status === "completed" ? "incomplete" : "completed";
 
-      const response = await fetch(`http://localhost:8080/api/${id}`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ status: updatedStatus }),
-      });
+      const response = await fetch(
+        `https://todo-mern-hyif.onrender.com/api/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: updatedStatus }),
+        }
+      );
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -71,7 +74,7 @@ const TodoPage = () => {
   const handleDelete = async (todoId) => {
     const token = localStorage.getItem("token");
     try {
-      await fetch(`http://localhost:8080/api/${todoId}`, {
+      await fetch(`https://todo-mern-hyif.onrender.com/api/${todoId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -89,7 +92,8 @@ const TodoPage = () => {
 
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:8080/api", {
+      const response = await fetch("https://todo-mern-hyif.onrender.com/api", {
+        // Changed to deployed URL
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -100,8 +104,15 @@ const TodoPage = () => {
           description: newDescription,
         }),
       });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error adding todo:", errorText);
+        return;
+      }
+
       const newTodoData = await response.json();
-      setTodos([...todos, newTodoData]);
+      setTodos((prevTodos) => [...prevTodos, newTodoData]); // Update state with the new todo
       setNewTodo("");
       setNewDescription("");
     } catch (error) {
@@ -115,17 +126,20 @@ const TodoPage = () => {
 
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch(`http://localhost:8080/api/${editTodoId}`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: editTodoText,
-          description: editDescriptionText,
-        }),
-      });
+      const response = await fetch(
+        `https://todo-mern-hyif.onrender.com/api/${editTodoId}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: editTodoText,
+            description: editDescriptionText,
+          }),
+        }
+      );
       const updatedTodo = await response.json();
       setTodos(
         todos.map((todo) => (todo._id === editTodoId ? updatedTodo : todo))

@@ -11,7 +11,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8080/api/signup", {
+      await axios.post("https://todo-mern-hyif.onrender.com/api/signup", {
         username,
         email,
         password,

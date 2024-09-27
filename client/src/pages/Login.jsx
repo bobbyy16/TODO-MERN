@@ -10,10 +10,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/api/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "https://todo-mern-hyif.onrender.com/api/login",
+        {
+          email,
+          password,
+        }
+      );
       localStorage.setItem("token", response.data.token);
       navigate("/todos"); // Navigate to the Todo page on successful login
     } catch (error) {
