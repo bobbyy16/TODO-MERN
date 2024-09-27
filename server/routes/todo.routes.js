@@ -14,7 +14,7 @@ router.use(authMiddleware);
 // Task routes
 router.post("/", createTodo);
 router.get("/", getAllTodos);
-router.put("/:todoId", updateTodo);
+router.patch("/:todoId", updateTodo); // Changed to PATCH
 router.delete("/:todoId", deleteTodo);
 
 module.exports = router;
