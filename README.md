@@ -1,6 +1,6 @@
 # Todo Application
 
-A simple Todo application built with React for the frontend and Node.js with Express for the backend. This app allows users to create, read, update, and delete tasks, as well as mark them as complete or incomplete.
+A simple Todo application built with React for the front end and Node.js with Express for the backend. This app allows users to create, read, update, and delete tasks and mark them as complete or incomplete.
 
 ## Demo video
 
@@ -40,12 +40,12 @@ Make sure you have the following installed:
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/bobbyy16/todo-app.git
+git clone https://github.com/bobbyy16/Todo-list.git
 cd todo-app
 ```
 
 ```bash
-cd todo-app/server
+cd Todo-list/server
 npm install
 ```
 
